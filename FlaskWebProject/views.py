@@ -88,8 +88,10 @@ def login():
 )  # Its absolute URL must match your app's redirect_uri set in AAD
 def authorized():
     if request.args.get("state") != session.get("state"):
+        app.logger.error("Authentication error")
         return redirect(url_for("home"))  # No-OP. Goes back to Index page
     if "error" in request.args:  # Authentication/Authorization failure
+        app.logger.error("Authentication error")
         return render_template("auth_error.html", result=request.args)
     if request.args.get("code"):
         cache = _load_cache()
@@ -103,11 +105,13 @@ def authorized():
         )
         result = token_result
         if "error" in result:
+            app.logger.error("Authentication error: " + str(result["error"]))
             return render_template("auth_error.html", result=result)
         session["user"] = result.get("id_token_claims")
         # Note: In a real app, we'd use the 'name' property from session["user"] below
         # Here, we'll use the admin username for anyone who is authenticated by MS
         user = User.query.filter_by(username="admin").first()
+        app.logger.info("Successful login by 'admin' account.")
         login_user(user)
         _save_cache(cache)
     return redirect(url_for("home"))
