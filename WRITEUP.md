@@ -13,15 +13,15 @@
 - A VM such as D2 v3 with 2 vCPUs, 8 GB RAM, 50 GB Temporary storage,  at $0.117/hour will cost around $85 per month.
 - A VM can be scaled up easily, both veritcally by moving to a higher tier of VM and horizontally by provisioning more servers.
 - Costs are constant, and increase linearly with the number of servers.
-- A VM would need maintenance and availability depends on qualtiy of managed service.
+- A VM would need maintenance and availability depends on qualtiy of managed service and application code.
 - Code can be deployed via a github action that SSH into the server and updates the local repo and restarts the process.
 
 ## Analysis of App Service
 
 - An app service at B3 tier with  4 Cores(s), 7 GB RAM, 10 GB Storage,  at $0.071/hour will cost around $65 per month.
-- It can be easily scaled up vertically by moving to a premium tier.
+- It can be easily scaled up vertically by moving to a premium tier. Autoscaling is available.
 - Costs are constant per hour of use.
-- App services will not need maintenance, since those are provided by Azure.
+- App services will not need maintenance, since those are provided by Azure. Availability depends on application code.
 - Code can be deployed from a github action, and the app service restarted.
 
 ## Why I chose an App Service
